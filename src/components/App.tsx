@@ -1,9 +1,15 @@
 import React from 'react';
+import { User } from '../model/Model';
+import { AuthService } from '../services/AuthService';
 
-function App() {
-  return (
-    <div>App is working</div>
-  );
+interface AppState {
+  user: User | undefined;
 }
 
-export default App;
+export class App extends React.Component<{}, AppState> {
+  private authService: AuthService = new AuthService();
+
+  render(): React.ReactNode {
+    return <div>App from class works!</div>;
+  }
+}
