@@ -16,7 +16,7 @@ interface CustomEvent {
   target: HTMLInputElement;
 }
 
-export default class Login extends Component<LoginProps, LoginState> {
+export class Login extends Component<LoginProps, LoginState> {
   state: LoginState = {
     userName: '',
     password: '',
