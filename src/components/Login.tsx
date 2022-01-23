@@ -1,8 +1,10 @@
 import React, { Component, SyntheticEvent } from 'react';
+import { User } from '../model/Model';
 import { AuthService } from '../services/AuthService';
 
 interface LoginProps {
   authService: AuthService;
+  setUser: (user: User) => void;
 }
 interface LoginState {
   userName: string;
@@ -36,18 +38,28 @@ export default class Login extends Component<LoginProps, LoginState> {
 
   private async handleSubmit(event: SyntheticEvent) {
     event.preventDefault();
+    this.setState({ loginAttempted: true });
     const result = await this.props.authService.login(
       this.state.userName,
       this.state.password
     );
     if (result) {
-      console.log(result);
+      this.setState({ loginSuccessful: true });
+      this.props.setUser(result);
     } else {
-      console.log('wrong login');
+      this.setState({ loginSuccessful: false });
     }
   }
 
   render() {
+    let loginMessage: any;
+    if (this.state.loginAttempted) {
+      if (this.state.loginSuccessful) {
+        loginMessage = <label>Login successful</label>;
+      } else {
+        loginMessage = <label>Login failed</label>;
+      }
+    }
     return (
       <div>
         <h2>Please login</h2>
@@ -65,6 +77,7 @@ export default class Login extends Component<LoginProps, LoginState> {
           <br />
           <input type="submit" value="Login" />
         </form>
+        {loginMessage}
       </div>
     );
   }
