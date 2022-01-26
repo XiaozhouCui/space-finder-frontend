@@ -7,7 +7,7 @@ import { Login } from './Login';
 import { Navbar } from './Navbar';
 import { Home } from './Home';
 import { Profile } from './Profile';
-import Spaces from './spaces/Spaces';
+import { Spaces } from './spaces/Spaces';
 import { DataService } from '../services/DataService';
 
 interface AppState {
