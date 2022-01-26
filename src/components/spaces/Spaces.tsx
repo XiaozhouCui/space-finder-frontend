@@ -37,9 +37,11 @@ export default class Spaces extends Component<SpacesProps, SpacesState> {
           name={space.name}
           spaceId={space.spaceId}
           reserveSpace={this.reserveSpace}
+          key={space.spaceId}
         />
       );
     }
+    return rows;
   }
 
   render() {

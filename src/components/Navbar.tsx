@@ -21,8 +21,9 @@ export class Navbar extends React.Component<{ user: User | undefined }> {
 
     return (
       <div className="navbar">
-        <Link to="/"> Home</Link>
-        <Link to="/profile"> Profile</Link>
+        <Link to="/">Home</Link>
+        <Link to="/profile">Profile</Link>
+        <Link to="/spaces">Spaces</Link>
         {loginLogOut}
       </div>
     );
