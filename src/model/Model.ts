@@ -6,6 +6,7 @@ export interface User {
 }
 
 export interface UserAttribute {
+  // this follows type CognitoUserAttribute
   Name: string;
   Value: string;
 }
