@@ -27,8 +27,10 @@ export class App extends React.Component<{}, AppState> {
   private authService: AuthService = new AuthService();
   private dataService: DataService = new DataService();
 
-  private setUser(user: User) {
+  private async setUser(user: User) {
     this.setState({ user });
+    // once logged in, in browser console, `AWS.config.credentials` will be populated and refreshed
+    await this.authService.getAWSTemporaryCreds(user.cognitoUser);
   }
 
   render() {
