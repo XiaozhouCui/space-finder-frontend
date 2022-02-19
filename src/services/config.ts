@@ -1,3 +1,7 @@
+// this api endpoint can be found in CloudFormation > Stacks > SpaceFinder > Outputs (tab)
+const spacesUrl =
+  'https://srqcwkm2nd.execute-api.ap-southeast-2.amazonaws.com/prod/';
+
 export const config = {
   REGION: 'ap-southeast-2',
   USER_POOL_ID: 'ap-southeast-2_NX7tExP4e',
@@ -6,4 +10,8 @@ export const config = {
   TEST_USER_NAME: 'joe.cui.2',
   TEST_USER_PASSWORD: 'g98yad0Thj#la5',
   SPACES_PHOTOS_BUCKET: 'spaces-photos-067730fda8cc',
+  api: {
+    baseUrl: spacesUrl,
+    spacesUrl: `${spacesUrl}spaces`,
+  },
 };
