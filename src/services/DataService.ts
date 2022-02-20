@@ -2,6 +2,7 @@ import { ICreateSpaceState } from '../components/spaces/CreateSpace';
 import { Space } from '../model/Model';
 import { S3, config } from 'aws-sdk';
 import { config as appConfig } from './config';
+import { generateRandomId } from '../utils/Utils';
 
 config.update({
   region: appConfig.REGION,
@@ -29,7 +30,7 @@ export class DataService {
   }
 
   private async uploadPublicFile(file: File, bucket: string) {
-    const fileName = file.name;
+    const fileName = generateRandomId() + file.name;
     const uploadResult = await new S3({ region: appConfig.REGION })
       .upload({
         Bucket: bucket,
@@ -42,25 +43,12 @@ export class DataService {
   }
 
   public async getSpapces(): Promise<Space[]> {
-    const result: Space[] = [];
-
-    result.push({
-      location: 'Paris',
-      name: 'Best Location',
-      spaceId: '123',
+    const requestUrl = appConfig.api.spacesUrl;
+    const requestResult = await fetch(requestUrl, {
+      method: 'GET',
     });
-    result.push({
-      location: 'London',
-      name: 'Best Location',
-      spaceId: '124',
-    });
-    result.push({
-      location: 'Tokyo',
-      name: 'Best Location',
-      spaceId: '125',
-    });
-
-    return result;
+    const responseJSON = await requestResult.json();
+    return responseJSON;
   }
 
   public async reserveSpace(spaceId: string): Promise<string | undefined> {

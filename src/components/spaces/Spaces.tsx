@@ -55,6 +55,7 @@ export class Spaces extends Component<SpacesProps, SpacesState> {
         <SpaceComponent
           location={space.location}
           name={space.name}
+          photoURL={space.photoURL}
           spaceId={space.spaceId}
           reserveSpace={this.reserveSpace}
           key={space.spaceId}
