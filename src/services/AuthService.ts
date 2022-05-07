@@ -18,6 +18,33 @@ Amplify.configure({
 });
 
 export class AuthService {
+
+  public async confirmSignUp(username: string, code: string): Promise<any | undefined> {
+    try {
+      const result = await Auth.confirmSignUp(username, code);
+      return result
+    } catch (error) {
+      console.error(error);
+      return undefined
+    }
+  }
+
+  public async signUp(username: string, password: string, email: string): Promise<CognitoUser | undefined> {
+    try {
+      const result = await Auth.signUp({
+        username,
+        password,
+        attributes: {
+          email
+        }
+      });
+      return result.user;
+    } catch (error) {
+      console.error(error);
+      return undefined
+    }
+  }
+
   public async login(
     userName: string,
     password: string
@@ -31,6 +58,10 @@ export class AuthService {
     } catch (error) {
       return undefined;
     }
+  }
+
+  public async logOut() {
+    return await Auth.signOut();
   }
 
   public async getAWSTemporaryCreds(user: CognitoUser) {
