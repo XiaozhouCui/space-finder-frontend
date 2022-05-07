@@ -3,7 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import { User } from '../model/Model';
 import { AuthService } from '../services/AuthService';
 import history from '../utils/history';
-import { Login } from './Login';
+import { Login } from './Auth/Login';
 import { Navbar } from './Navbar';
 import { Home } from './Home';
 import { Profile } from './Profile';
