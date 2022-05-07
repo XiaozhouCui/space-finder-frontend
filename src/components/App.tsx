@@ -4,12 +4,14 @@ import { User } from '../model/Model';
 import { AuthService } from '../services/AuthService';
 import history from '../utils/history';
 import { Login } from './Auth/Login';
+import { Logout } from './Auth/Logout';
 import { Navbar } from './Navbar';
 import { Home } from './Home';
 import { Profile } from './Profile';
 import { Spaces } from './spaces/Spaces';
 import { DataService } from '../services/DataService';
 import { CreateSpace } from './spaces/CreateSpace';
+// import { SignUp } from './Auth/Signup';
 
 interface AppState {
   user: User | undefined;
@@ -22,6 +24,7 @@ export class App extends React.Component<{}, AppState> {
       user: undefined,
     };
     this.setUser = this.setUser.bind(this);
+    this.clearUser = this.clearUser.bind(this);
   }
 
   private authService: AuthService = new AuthService();
@@ -31,6 +34,10 @@ export class App extends React.Component<{}, AppState> {
     this.setState({ user });
     // once logged in, in browser console, `AWS.config.credentials` will be populated and refreshed
     await this.authService.getAWSTemporaryCreds(user.cognitoUser);
+  }
+
+  private clearUser() {
+    this.setState({ user: undefined });
   }
 
   render() {
@@ -56,6 +63,16 @@ export class App extends React.Component<{}, AppState> {
               <Route exact path="/createSpace">
                 <CreateSpace dataService={this.dataService} />
               </Route>
+              <Route exact path="/logout">
+                <Logout
+                  user={this.state.user}
+                  authService={this.authService}
+                  clearUser={this.clearUser}
+                />
+              </Route>
+              {/* <Route exact path="/signup">
+                <SignUp authService={this.authService} />
+              </Route> */}
             </Switch>
           </div>
         </Router>
