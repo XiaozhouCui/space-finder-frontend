@@ -11,7 +11,7 @@ import { Profile } from './Profile';
 import { Spaces } from './spaces/Spaces';
 import { DataService } from '../services/DataService';
 import { CreateSpace } from './spaces/CreateSpace';
-// import { SignUp } from './Auth/Signup';
+import { SignUp } from './Auth/Signup';
 
 interface AppState {
   user: User | undefined;
@@ -70,9 +70,9 @@ export class App extends React.Component<{}, AppState> {
                   clearUser={this.clearUser}
                 />
               </Route>
-              {/* <Route exact path="/signup">
+              <Route exact path="/signup">
                 <SignUp authService={this.authService} />
-              </Route> */}
+              </Route>
             </Switch>
           </div>
         </Router>
