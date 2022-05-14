@@ -1,5 +1,5 @@
 import { ICreateSpaceState } from '../components/spaces/CreateSpace';
-import { Space, User } from '../model/Model';
+import { Reservation, ReservationState, Space, User } from '../model/Model';
 import { S3, config } from 'aws-sdk';
 import { config as appConfig } from './config';
 import { generateRandomId } from '../utils/Utils';
@@ -97,9 +97,80 @@ export class DataService {
   }
 
   public async reserveSpace(spaceId: string): Promise<string | undefined> {
-    if (spaceId === '123') {
-      return '5555';
+    const requestUrl = appConfig.api.reservationsUrl;
+    const requestResult = await fetch(requestUrl, {
+      method: 'POST',
+      headers: {
+        Authorization: this.getUserIdToken(),
+      },
+      body: JSON.stringify({
+        spaceId: spaceId,
+        user: this.user?.userName,
+      }),
+    });
+    const responseJSON = await requestResult.json();
+    return responseJSON.id;
+  }
+
+  public async getAllReservations(): Promise<Reservation[]> {
+    if (this.user?.isAdmin) {
+      const requestUrl = appConfig.api.reservationsUrl;
+      const requestResult = await fetch(requestUrl, {
+        method: 'GET',
+        headers: {
+          Authorization: this.getUserIdToken(),
+        },
+      });
+      const responseJSON = await requestResult.json();
+      return responseJSON;
+    } else {
+      return [];
     }
-    return undefined;
+  }
+
+  public async getUserReservations(): Promise<Reservation[]> {
+    if (this.user) {
+      const requestUrl = `${appConfig.api.reservationsUrl}?user=${this.user.userName}`;
+      const requestResult = await fetch(requestUrl, {
+        method: 'GET',
+        headers: {
+          Authorization: this.getUserIdToken(),
+        },
+      });
+      const responseJSON = await requestResult.json();
+      return responseJSON;
+    } else {
+      return [];
+    }
+  }
+
+  public async deleteReservation(reservationId: string): Promise<any> {
+    const requestUrl = `${appConfig.api.reservationsUrl}?reservationId=${reservationId}`;
+    const requestResult = await fetch(requestUrl, {
+      method: 'DELETE',
+      headers: {
+        Authorization: this.getUserIdToken(),
+      },
+    });
+    const responseJSON = await requestResult.json();
+    return responseJSON;
+  }
+
+  public async updateReservation(
+    reservationId: string,
+    reservationState: ReservationState
+  ): Promise<any> {
+    const requestUrl = `${appConfig.api.reservationsUrl}?reservationId=${reservationId}`;
+    const requestResult = await fetch(requestUrl, {
+      method: 'PUT',
+      headers: {
+        Authorization: this.getUserIdToken(),
+      },
+      body: JSON.stringify({
+        state: reservationState,
+      }),
+    });
+    const responseJSON = await requestResult.json();
+    return responseJSON;
   }
 }

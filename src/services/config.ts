@@ -10,8 +10,10 @@ export const config = {
   TEST_USER_NAME: 'joe.cui.2',
   TEST_USER_PASSWORD: 'g98yad0Thj#la5',
   SPACES_PHOTOS_BUCKET: 'spaces-photos-067730fda8cc',
+  PROFILE_PHOTOS_BUCKET: 'profile-photos-067730fda8cc',
   api: {
     baseUrl: spacesUrl,
     spacesUrl: `${spacesUrl}spaces`,
+    reservationsUrl: `${spacesUrl}reservations/`,
   },
 };
