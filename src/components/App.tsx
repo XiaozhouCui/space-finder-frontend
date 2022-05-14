@@ -12,6 +12,7 @@ import { Spaces } from './spaces/Spaces';
 import { DataService } from '../services/DataService';
 import { CreateSpace } from './spaces/CreateSpace';
 import { SignUp } from './Auth/Signup';
+import { Reservations } from './reservations/Reservations';
 
 interface AppState {
   user: User | undefined;
@@ -67,6 +68,9 @@ export class App extends React.Component<{}, AppState> {
               </Route>
               <Route exact path="/createSpace">
                 <CreateSpace dataService={this.dataService} />
+              </Route>
+              <Route exact path='/reservations'>
+                <Reservations dataService={this.dataService} user={this.state.user}/>
               </Route>
               <Route exact path="/logout">
                 <Logout
