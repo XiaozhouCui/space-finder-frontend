@@ -31,6 +31,10 @@ export class App extends React.Component<{}, AppState> {
   private dataService: DataService = new DataService();
 
   private async setUser(user: User) {
+    const isAdmin = this.authService.isUserAdmin(user);
+    if (isAdmin) {
+      user.isAdmin = true;
+    }
     this.setState({ user });
     // once logged in, in browser console, `AWS.config.credentials` will be populated and refreshed
     await this.authService.getAWSTemporaryCreds(user.cognitoUser);
