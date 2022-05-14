@@ -43,6 +43,9 @@ export class DataService {
     const requestUrl = appConfig.api.spacesUrl;
     const requestOptions: RequestInit = {
       method: 'POST',
+      headers: {
+        Authorization: this.getUserIdToken(),
+      },
       body: JSON.stringify(iCreateSpace),
     };
     // POST request will store the location, description and photoURL into DynamoDB

@@ -14,13 +14,14 @@ code {
 
 .wrapper {
   margin: auto;
-  width: 70%;
+  width: 80%;
 }
 
 /* Add a black background color to the top navigation */
 .navbar {
   background-color: #333;
   overflow: hidden;
+  margin-bottom: 1rem;
 }
 
 /* Style the links inside the navigation bar */

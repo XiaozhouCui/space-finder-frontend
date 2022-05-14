@@ -7,7 +7,6 @@ form {
   background: #f9f9f9;
   border: 1px solid #c1c1c1;
   margin-top: 2rem;
-  max-width: 600px;
   /* margin-left: auto;
     margin-right: auto; */
   padding: 1em;
@@ -17,6 +16,13 @@ form input {
   background: #fff;
   border: 1px solid #9c9c9c;
   width: 100%;
+}
+form input[type="submit"] {
+  background-color: #d7d7d7;
+}
+form input[type="submit"]:hover {
+  background-color: #e3e3e3;
+  cursor: pointer;
 }
 form button {
   background: lightgrey;
