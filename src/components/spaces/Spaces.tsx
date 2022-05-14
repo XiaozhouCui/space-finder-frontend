@@ -1,9 +1,10 @@
 import { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Space } from '../../model/Model';
 import { DataService } from '../../services/DataService';
-import { ConfirmModalComponent } from './ConfirmModalComponent';
 import { SpaceComponent } from './SpaceComponent';
+import { User } from '../../model/Model';
+import { ConfirmModalComponent } from './ConfirmModalComponent';
+import { Link } from 'react-router-dom';
 
 interface SpacesState {
   spaces: Space[];
@@ -13,6 +14,7 @@ interface SpacesState {
 
 interface SpacesProps {
   dataService: DataService;
+  user: User | undefined;
 }
 
 export class Spaces extends Component<SpacesProps, SpacesState> {
@@ -34,11 +36,13 @@ export class Spaces extends Component<SpacesProps, SpacesState> {
   }
 
   private async reserveSpace(spaceId: string) {
-    const result = await this.props.dataService.reserveSpace(spaceId);
-    if (result) {
+    const reservationResult = await this.props.dataService.reserveSpace(
+      spaceId
+    );
+    if (reservationResult) {
       this.setState({
         showModal: true,
-        modalContent: `You reserved the space with id ${spaceId} and got the reservation number ${result}`,
+        modalContent: `You reserved the space with id ${spaceId} and got the reservation number ${reservationResult}`,
       });
     } else {
       this.setState({
@@ -53,12 +57,12 @@ export class Spaces extends Component<SpacesProps, SpacesState> {
     for (const space of this.state.spaces) {
       rows.push(
         <SpaceComponent
+          key={space.spaceId}
           location={space.location}
           name={space.name}
           photoURL={space.photoURL}
           spaceId={space.spaceId}
           reserveSpace={this.reserveSpace}
-          key={space.spaceId}
         />
       );
     }
@@ -66,15 +70,28 @@ export class Spaces extends Component<SpacesProps, SpacesState> {
   }
 
   private closeModal() {
-    this.setState({ showModal: false, modalContent: '' });
+    this.setState({
+      showModal: false,
+      modalContent: '',
+    });
+  }
+
+  renderCreateSpacesLink() {
+    if (this.props.user?.isAdmin) {
+      return (
+        <div>
+          <Link to="/createSpace">Create space</Link>
+          <br></br>
+        </div>
+      );
+    }
   }
 
   render() {
     return (
       <div>
         <h2>Welcome to the Spaces page!</h2>
-        <Link to="/createSpace">Create space</Link>
-        <br />
+        {this.renderCreateSpacesLink()}
         {this.renderSpaces()}
         <ConfirmModalComponent
           close={this.closeModal}
