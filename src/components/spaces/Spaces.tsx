@@ -29,7 +29,7 @@ export class Spaces extends Component<SpacesProps, SpacesState> {
   }
 
   async componentDidMount() {
-    const spaces = await this.props.dataService.getSpapces();
+    const spaces = await this.props.dataService.getSpaces();
     this.setState({ spaces });
   }
 
