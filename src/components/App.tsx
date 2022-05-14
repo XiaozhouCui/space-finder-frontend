@@ -18,7 +18,11 @@ interface AppState {
   user: User | undefined;
 }
 
+/* istanbul ignore file */
 export class App extends React.Component<{}, AppState> {
+  private authService: AuthService = new AuthService();
+  private dataService: DataService = new DataService();
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -27,9 +31,6 @@ export class App extends React.Component<{}, AppState> {
     this.setUser = this.setUser.bind(this);
     this.clearUser = this.clearUser.bind(this);
   }
-
-  private authService: AuthService = new AuthService();
-  private dataService: DataService = new DataService();
 
   private async setUser(user: User) {
     const isAdmin = this.authService.isUserAdmin(user);
@@ -61,16 +62,20 @@ export class App extends React.Component<{}, AppState> {
                 <Profile
                   authService={this.authService}
                   user={this.state.user}
+                  dataService={this.dataService}
                 />
               </Route>
               <Route exact path="/spaces">
-                <Spaces dataService={this.dataService} user={this.state.user}/>
+                <Spaces dataService={this.dataService} user={this.state.user} />
               </Route>
               <Route exact path="/createSpace">
                 <CreateSpace dataService={this.dataService} />
               </Route>
-              <Route exact path='/reservations'>
-                <Reservations dataService={this.dataService} user={this.state.user}/>
+              <Route exact path="/reservations">
+                <Reservations
+                  dataService={this.dataService}
+                  user={this.state.user}
+                />
               </Route>
               <Route exact path="/logout">
                 <Logout
